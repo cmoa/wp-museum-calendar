@@ -1,0 +1,25 @@
+{
+  "name": "carneyplusco/cmoa-calendar",
+  "description": "Bridge to All-in-one Event Calendar data",
+  "version": "1.0.0",
+  "keywords": ["wordpress", "plugin", "carneyplusco", "all-in-one-event-calendar"],
+  "homepage": "https://carney.co",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Carney+Co.",
+      "email": "dev.team@carney.co",
+      "homepage": "http://carney.io"
+    },
+    {
+      "name": "Carnegie Museum of Art",
+      "email": "info@cmoa.org",
+      "homepage": "http://github.com/cmoa"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=5.4",
+    "composer/installers": "~1.0"
+  }
+}
