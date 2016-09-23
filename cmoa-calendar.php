@@ -345,6 +345,10 @@ class CMOA_Calendar {
       return !get_field('hidden', $category);
     });
 
+    array_walk($visible_categories, function(&$category, $key) {
+      $category->name = wp_specialchars_decode($category->name);
+    });
+
     return array_values($visible_categories);
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "carneyplusco/cmoa-calendar",
   "description": "Bridge to All-in-one Event Calendar data",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": ["wordpress", "plugin", "carneyplusco", "all-in-one-event-calendar"],
   "homepage": "https://carney.co",
   "license": "MIT",

@@ -4,7 +4,7 @@
  * Description: Bridge calendar data to site
  * Author: Carney+Co.
  * Author URI: http://carney.co
- * Version: 1.0.0
+ * Version: 1.0.1
  */
 
 /**
