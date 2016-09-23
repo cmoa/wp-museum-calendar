@@ -334,7 +334,7 @@ class CMOA_Calendar {
   *
   *  @type	function
   *  @date	08/25/16
-  *  @since	1.0.0
+  *  @since	1.0.1
   *
   *  @return (array)
   */
