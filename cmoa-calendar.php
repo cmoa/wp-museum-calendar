@@ -182,7 +182,11 @@ class CMOA_Calendar {
       $filters // array of category/tag ids
 		);
 
-    return $events;
+    $visible_events = array_filter($events, function($event) {
+      return !get_field('hidden', $event->get('post_id'));
+    });
+
+    return $visible_events;
   }
 
   /*
