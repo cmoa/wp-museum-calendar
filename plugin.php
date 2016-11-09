@@ -4,7 +4,7 @@
  * Description: Bridge calendar data to site
  * Author: Carney+Co.
  * Author URI: http://carney.co
- * Version: 1.0.2
+ * Version: 1.1.0
  */
 
 /**
@@ -13,5 +13,10 @@
 if ( ! class_exists( 'CMOA_Calendar' ) ) {
 	require_once dirname( __FILE__ ) . '/cmoa-calendar.php';
 }
+
+if ( ! class_exists( 'CMOA_Event' ) ) {
+	require_once dirname( __FILE__ ) . '/cmoa-event.php';
+}
+
 
 ?>

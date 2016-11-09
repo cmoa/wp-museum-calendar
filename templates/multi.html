@@ -1,0 +1,11 @@
+<time itemprop="startDate" content="{{start_date_iso}}">
+  <p>
+    {{#formatted_instances}}
+      {{.}}
+      {{^all_day}}
+        <span class="times">{{start_time}}{{^has_no_end_time}}&ndash;{{end_time}}{{/has_no_end_time}}</span>
+      {{/all_day}}
+      <br />
+    {{/formatted_instances}}
+  </p>
+</time>

@@ -1,4 +1,4 @@
-# CMOA CALENDAR v1.0.2
+# CMOA CALENDAR v1.1.0
 
 ## About
 
