@@ -429,6 +429,66 @@ class CMOA_Calendar {
     return array_values($unique_events);
   }
 
+  /*
+  *  related_events
+  *
+  *  This function returns related events for a given event object
+  *
+  *  @type	function
+  *  @date	12/09/16
+  *  @since	1.2.0
+  *
+  *  @param	$cmoa_event (CMOA Event object)
+  *  @return (array)
+  */
+
+  public function related_events($cmoa_event) {
+    $related = get_field('exhibition', $cmoa_event->details->get('post_id')) ?: [];
+    $related_events = array_filter($related, function($related_event) {
+      return get_post_type($related_event) == 'ai1ec_event';
+    });
+
+    $cmoa_events = array_map(function($event) {
+      $cmoa_event = new CMOA_Event($event);
+      return $cmoa_event;
+    }, $related_events);
+
+    return $cmoa_events;
+  }
+
+  /*
+  *  related_exhibitions
+  *
+  *  This function returns related exhibitions for a given event object
+  *
+  *  @type	function
+  *  @date	12/09/16
+  *  @since	1.2.0
+  *
+  *  @param	$cmoa_event (CMOA Event object)
+  *  @return (array)
+  */
+
+  public function related_exhibitions($cmoa_event) {
+    $related = get_field('exhibition', $cmoa_event->details->get('post_id')) ?: [];
+    $related_exhibitions = array_filter($related, function($related_exhibition) {
+      return get_post_type($related_exhibition) == 'exhibition';
+    });
+
+    $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) use ($_timezone) {
+      if(!get_field('has_start_and_end_date', $related_exhibition->ID) && get_field('lead_message', $related_exhibition->ID)) {
+        return true;
+      }
+      elseif(get_field('start_date', $related_exhibition->ID) && get_field('end_date', $related_exhibition->ID)) {
+        $now = new DateTime();
+        $start_date = DateTime::createFromFormat("Ymd", get_field('start_date', $related_exhibition->ID), $_timezone);
+        $end_date = DateTime::createFromFormat("Ymd", get_field('end_date', $related_exhibition->ID), $_timezone);
+        return $start_date <= $now && $end_date > $now;
+      }
+    });
+
+    return $related_exhibitions;
+  }
 }
 
 /* Routes */
