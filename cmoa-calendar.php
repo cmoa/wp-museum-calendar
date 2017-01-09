@@ -215,6 +215,11 @@ class CMOA_Calendar {
         $created_date = str_replace(" ", "T", $post->post_date);
       }
 
+      $excerpt = get_the_excerpt($post);
+      if(empty($excerpt)) {
+        $excerpt = get_field('excerpt', $post);
+      }
+
       // should we exclude some of these fields to decrease the payload size?
       $e = [
         'id' => $post->ID,
@@ -222,7 +227,7 @@ class CMOA_Calendar {
         'tags' => wp_get_post_terms($post->ID, 'events_tags'),
         'name' => $post->post_title,
         'url' => get_permalink($post),
-        'excerpt' => get_the_excerpt($post),
+        'excerpt' => $excerpt,
         'description' => $post->post_content,
         'start' => $event->get('start')->format('c'),
         'end' => $event->get('end')->format('c'),
