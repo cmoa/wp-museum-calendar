@@ -481,15 +481,8 @@ class CMOA_Calendar {
     });
 
     $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) use ($_timezone) {
-      if(!get_field('has_start_and_end_date', $related_exhibition->ID) && get_field('lead_message', $related_exhibition->ID)) {
-        return true;
-      }
-      elseif(get_field('start_date', $related_exhibition->ID) && get_field('end_date', $related_exhibition->ID)) {
-        $now = new DateTime();
-        $start_date = DateTime::createFromFormat("Ymd", get_field('start_date', $related_exhibition->ID), $_timezone);
-        $end_date = DateTime::createFromFormat("Ymd", get_field('end_date', $related_exhibition->ID), $_timezone);
-        return $start_date <= $now && $end_date > $now;
-      }
+      return get_field('has_start_and_end_date', $related_exhibition->ID) ||
+        (!get_field('has_start_and_end_date', $related_exhibition->ID) && get_field('lead_message', $related_exhibition->ID));
     });
 
     return $related_exhibitions;
