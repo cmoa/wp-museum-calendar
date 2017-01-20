@@ -405,7 +405,7 @@ class CMOA_Calendar {
 
   public function all_upcoming_events($filters = []) {
     $start_date = new DateTime('now');
-    $end_date = new DateTime('+100 years');
+    $end_date = new DateTime('+1 year');
 
     return $this->get_event_between_dates($start_date->format('U'), $end_date->format('U'), $filters);
   }
