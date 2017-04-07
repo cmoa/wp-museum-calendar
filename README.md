@@ -10,7 +10,7 @@ WP Museum Calendar offers several benefits:
 
 ## Adapters
 
-Currently WP Museum Calendar works with the All-in-One Event Calendar by Time.ly. with plans to support other calendar plugins in the future.
+Currently WP Museum Calendar works with the All-in-One Event Calendar by Time.ly with plans to support other calendar plugins in the future.
 
 ## Installation
 
@@ -47,8 +47,13 @@ $filtered_events = $calendar->get_event_between_dates($start->format('U'), $star
 $upcoming_events = $calendar->all_upcoming_events($filters);
 ```
 
-### List all event categories
+#### List all event categories
 ```php
 // Optionally pass a specific taxonomy
 $categories = $calendar->calendar_categories($taxonomy);
 ```
+
+## TODO
+
+- [ ] Create base class to be an interface to future adapters
+- [ ] Transition existing base class to function as All-in-One calendar adapter
