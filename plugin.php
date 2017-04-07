@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: CMOA Calendar
- * Description: Bridge calendar data to site
+ * Plugin Name: WP Museum Calendar
+ * Description: Bridge to WordPress calendar data
  * Author: Carney+Co.
  * Author URI: http://carney.co
- * Version: 1.2.3
+ * Version: 1.2.4
  */
 
 /**
