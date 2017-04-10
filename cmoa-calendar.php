@@ -260,6 +260,15 @@ class CMOA_Calendar {
 
     usort($event_list, array('self', 'sort_events_by_hour'));
 
+    /**
+    * Filters the list of events, for other sites to add additional fields.
+    *
+    * @since 1.2.5
+    *
+    * @param $event_list Formatted array of event data.
+    */
+    apply_filters( 'carnegie_format_events_for_rest_api', $event_list );
+
     return $event_list;
   }
 
