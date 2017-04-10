@@ -179,7 +179,8 @@ class CMOA_Calendar {
     $events = $search->get_events_between(
 			$start_time,
 			$end_time,
-      $filters // array of category/tag ids
+      $filters, // array of category/tag ids
+      true
 		);
 
     $visible_events = array_filter($events, function($event) {
@@ -202,7 +203,7 @@ class CMOA_Calendar {
 	*  @return events array with desired structure
 	*/
 
-  private function format_events($events) {
+  function format_events($events) {
     $event_list = [];
     $tz = new DateTimeZone($this->_timezone);
 
@@ -545,6 +546,39 @@ add_action('rest_api_init', function () {
   register_rest_route('events/v1', '/start/(?P<start>\d+)/end/(?P<end>\d+)', array(
     'methods' => 'GET',
     'callback' => 'calendar_range_api'
+  ));
+});
+
+/*
+*  calendar_upcoming_api
+*
+*  This function is called from the API route and passes the current date to
+*  show all upcoming events.
+*
+*  @type  function
+*  @date  02/2/17
+*  @since 1.2.5
+*
+*  @return JSON object representing event
+*/
+
+function calendar_upcoming_api() {
+  $cal = new CMOA_Calendar();
+  $events = $cal->all_upcoming_events();
+
+  // Filter down to unique events
+  $unique_events = $cal->unique_events($events);
+
+  // Format events
+  $formatted_events = $cal->format_events($unique_events);
+
+  return $formatted_events;
+}
+
+add_action('rest_api_init', function () {
+  register_rest_route('events/v1', '/upcoming/', array(
+    'methods' => 'GET',
+    'callback' => 'calendar_upcoming_api'
   ));
 });
 
