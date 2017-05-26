@@ -90,7 +90,7 @@ class CMOA_Calendar {
 
   function events_in_category($slug) {
     $start_date = new DateTime('now');
-    $end_date = new DateTime('+1 month');
+    $end_date = new DateTime('+1 year');
     $category = get_term_by('slug', $slug, 'events_categories');
     $filters['cat_ids'][] = $category->term_id;
     $events = $this->get_event_between_dates($start_date->format('U'), $end_date->format('U'), $filters);
