@@ -1,4 +1,4 @@
-# WP MUSEUM CALENDAR v1.2.4
+# WP MUSEUM CALENDAR
 
 The WP Museum Calendar plugin acts as an interface to and provide additional functionality for other popular calendar plugins.
 
