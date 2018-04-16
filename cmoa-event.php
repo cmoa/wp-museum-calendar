@@ -99,7 +99,7 @@ class CMOA_Event {
   */
 
   public function last_event_end() {
-    if($this->recurrence() !== false && $this->has_end_date()) {
+    if(! empty($this->event_instances())) {
       return new Ai1ec_Date_Time($this->ai1ec_registry, end($this->event_instances())->end, $this->_timezone);
     }
     else {
