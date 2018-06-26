@@ -1,7 +1,7 @@
 {
   "name": "cmoa/wp-museum-calendar",
   "description": "Bridge to WordPress calendar data",
-  "version": "1.2.6",
+  "version": "2.0.0",
   "keywords": ["wordpress", "plugin", "carneyplusco", "all-in-one-event-calendar"],
   "homepage": "https://carney.co",
   "license": "MIT",
@@ -9,12 +9,12 @@
     {
       "name": "Carney+Co.",
       "email": "dev.team@carney.co",
-      "homepage": "http://carney.co"
+      "homepage": "https://carney.co"
     },
     {
       "name": "Carnegie Museum of Art",
       "email": "info@cmoa.org",
-      "homepage": "http://github.com/cmoa"
+      "homepage": "https://github.com/cmoa"
     }
   ],
   "type": "wordpress-plugin",
