@@ -3,8 +3,8 @@
  * Plugin Name: WP Museum Calendar
  * Description: Bridge to WordPress calendar data
  * Author: Carney+Co.
- * Author URI: http://carney.co
- * Version: 1.2.6
+ * Author URI: https://carney.co
+ * Version: 2.0.0
  */
 
 /**

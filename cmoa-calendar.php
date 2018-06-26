@@ -452,13 +452,14 @@ class CMOA_Calendar {
   *  @type	function
   *  @date	12/09/16
   *  @since	1.2.0
+  *  @version 2.0.0
   *
-  *  @param	$cmoa_event (CMOA Event object)
+  *  @param	$post (Post object)
   *  @return (array)
   */
 
-  public function related_events($cmoa_event) {
-    $related = get_field('exhibition', $cmoa_event->details->get('post_id')) ?: [];
+  public function related_events($post, $include_expired=false) {
+    $related = get_field('related_items', $post) ?: [];
     $related_events = array_filter($related, function($related_event) {
       return get_post_type($related_event) == 'ai1ec_event';
     });
@@ -467,6 +468,13 @@ class CMOA_Calendar {
       $cmoa_event = new CMOA_Event($event);
       return $cmoa_event;
     }, $related_events);
+
+    if(!$include_expired) {
+      $now = new DateTime();
+      $cmoa_events = array_filter($cmoa_events, function($cmoa_event) use ($now) {
+        return $cmoa_event->last_event_end()->format('U') > $now->format('U');
+      });
+    }
 
     return $cmoa_events;
   }
@@ -479,13 +487,14 @@ class CMOA_Calendar {
   *  @type	function
   *  @date	12/09/16
   *  @since	1.2.0
+  *  @version 2.0.0
   *
-  *  @param	$cmoa_event (CMOA Event object)
+  *  @param	$post (Post object)
   *  @return (array)
   */
 
-  public function related_exhibitions($cmoa_event) {
-    $related = get_field('exhibition', $cmoa_event->details->get('post_id')) ?: [];
+  public function related_exhibitions($post) {
+    $related = get_field('related_items', $post) ?: [];
     $related_exhibitions = array_filter($related, function($related_exhibition) {
       return get_post_type($related_exhibition) == 'exhibition';
     });

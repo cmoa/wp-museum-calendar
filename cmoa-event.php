@@ -28,15 +28,26 @@ class CMOA_Event {
   *
 	*  @type	function
 	*  @date	11/09/16
-	*  @since	1.1.0
+  *  @since	1.1.0
+  *  @version 2.0.0
 	*
 	*  @return string || false
 	*/
 
   public function recurrence() {
     $frequency_pattern = '/^FREQ=([^;]+);/';
+    $rdate_pattern = '/RDATE=.*,([\dTZ]+)$/';
     preg_match($frequency_pattern, $this->details->get('recurrence_rules'), $freq_matches);
-    return isset($freq_matches[1]) ? $freq_matches[1] : false;
+    preg_match($rdate_pattern, $this->details->get('recurrence_rules'), $rdate_matches);
+    if(isset($freq_matches[1])) {
+      return $freq_matches[1];
+    }
+    elseif(isset($rdate_matches[1])) {
+      return 'CUSTOM';
+    }
+    else {
+      return false;
+    }
   }
 
   /*
@@ -47,14 +58,17 @@ class CMOA_Event {
   *  @type	function
   *  @date	11/09/16
   *  @since	1.1.0
+  *  @version 2.0.0
   *
   *  @return boolean
   */
 
   public function has_end_date() {
     $until_pattern = '/UNTIL=([^;]+);/';
+    $rdate_pattern = '/RDATE=.*,([\dTZ]+)$/';
     preg_match($until_pattern, $this->details->get('recurrence_rules'), $until_matches);
-    return isset($until_matches[1]);
+    preg_match($rdate_pattern, $this->details->get('recurrence_rules'), $rdate_matches);
+    return isset($until_matches[1]) || isset($rdate_matches[1]);
   }
 
   /*
@@ -282,7 +296,7 @@ class CMOA_Event {
   public function formatted_instances() {
     $formatted_events = array_map(function($event) {
       $date = new Ai1ec_Date_Time($this->ai1ec_registry, $event->end, $this->_timezone);
-      return $date->format('M j, Y');
+      return ['day' => $date->format('M j'), 'year' => $date->format('Y')];
     }, $this->event_instances());
     return $formatted_events;
   }
@@ -300,7 +314,7 @@ class CMOA_Event {
   */
 
   public function display_dates() {
-    if($this->recurrence() !== false) {
+    if($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM') {
       $template = $this->has_end_date() ? 'date_range' : 'recurring';
     }
     elseif($this->details->get('recurrence_rules')) {
