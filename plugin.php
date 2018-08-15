@@ -4,7 +4,7 @@
  * Description: Bridge to WordPress calendar data
  * Author: Carney+Co.
  * Author URI: https://carney.co
- * Version: 2.0.0
+ * Version: 2.0.1
  */
 
 /**
