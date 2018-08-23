@@ -458,7 +458,7 @@ class CMOA_Calendar {
   *  @return (array)
   */
 
-  public function related_events($post, $include_expired=false) {
+  public function related_events($post, $include_expired=false, $sort_by_date=true) {
     $related = get_field('related_items', $post) ?: [];
     $related_events = array_filter($related, function($related_event) {
       return get_post_type($related_event) == 'ai1ec_event';
@@ -468,6 +468,15 @@ class CMOA_Calendar {
       $cmoa_event = new CMOA_Event($event);
       return $cmoa_event;
     }, $related_events);
+
+    if($sort_by_date) {
+      usort($cmoa_events, function($event1, $event2) {
+        if ($event1->start_date_iso() == $event2->start_date_iso()) {
+          return 0;
+        }
+        return ($event1->start_date_iso() < $event2->start_date_iso()) ? -1 : 1;
+      });
+    }
 
     if(!$include_expired) {
       $now = new DateTime();
@@ -493,16 +502,36 @@ class CMOA_Calendar {
   *  @return (array)
   */
 
-  public function related_exhibitions($post) {
+  public function related_exhibitions($post, $sort_by_date=true) {
     $related = get_field('related_items', $post) ?: [];
     $related_exhibitions = array_filter($related, function($related_exhibition) {
       return get_post_type($related_exhibition) == 'exhibition';
     });
 
-    $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) use ($_timezone) {
+    $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) {
       return get_field('has_start_and_end_date', $related_exhibition->ID) ||
         (!get_field('has_start_and_end_date', $related_exhibition->ID) && get_field('lead_message', $related_exhibition->ID));
     });
+
+    if($sort_by_date) {
+      usort($related_exhibitions, function($ex1, $ex2) {
+        if(!get_field('has_start_and_end_date', $ex1)) {
+          return -1;
+        }
+
+        if(!get_field('has_start_and_end_date', $ex2)) {
+          return 1;
+        }
+
+        $start_date1 = DateTime::createFromFormat('Ymd', get_field('start_date', $ex1));
+        $start_date2 = DateTime::createFromFormat('Ymd', get_field('start_date', $related_exhibition->ID));
+
+        if ($start_date1 == $start_date2) {
+          return 0;
+        }
+        return ($start_date1 < $start_date2) ? -1 : 1;
+      });
+    }
 
     return $related_exhibitions;
   }
