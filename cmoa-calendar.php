@@ -221,6 +221,34 @@ class CMOA_Calendar {
         $excerpt = get_field('excerpt', $post);
       }
 
+      // yowza, double reduce with a foreach!
+      $sponsor_list = array_reduce(get_field('sponsorship_sections', $post->ID), function($sponsor_arr, $sponsorship_section) {
+        $sponsors = array_reduce($sponsorship_section['sponsor_layout'], function($section_arr, $layout) {
+          if($layout['acf_fc_layout'] == 'sponsor_text') {
+            $section_arr[] = ['description' => $layout['sponsorship_details']];
+          }
+          elseif($layout['acf_fc_layout'] == 'sponsor_logos') {
+            foreach($layout['sponsors'] as $logo) {
+              list($src, $width, $height) = wp_get_attachment_image_src($logo['image'], 'large');
+              $section_arr[] = [
+                'name' => $logo['sponsor_name'],
+                'image' => $src,
+                'website' => $logo['website']
+              ];
+            }
+          }
+
+          return $section_arr;
+        }, []);
+
+        $section = [
+          'headline' => $sponsorship_section['sponsorship_headline'],
+          'sponsor_list' => $sponsors
+        ];
+        $sponsor_arr[] = $section;
+        return $sponsor_arr;
+      }, []);
+
       // should we exclude some of these fields to decrease the payload size?
       $e = [
         'id' => $post->ID,
@@ -244,9 +272,8 @@ class CMOA_Calendar {
         'images' => [
           'banner' => get_field('banner_image', $post),
           'featured' => wp_get_attachment_image_src(get_post_thumbnail_id($post), 'large'),
-          'sponsor' => get_field('sponsor_images', $post)
         ],
-        'sponsorship_details' => get_field('sponsorship_details', $post),
+        'sponsors' => $sponsor_list,
         'building_location' => $event->get('venue'),
         'ticketing' => [
            'availability' => get_field('ticket_availability', $post),
