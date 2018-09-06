@@ -488,7 +488,7 @@ class CMOA_Calendar {
   public function related_events($post, $include_expired=false, $sort_by_date=true) {
     $related = get_field('related_items', $post) ?: [];
     $related_events = array_filter($related, function($related_event) {
-      return get_post_type($related_event) == 'ai1ec_event';
+      return get_post_type($related_event) == 'ai1ec_event' && 'publish' == $related_event->post_status;
     });
 
     $cmoa_events = array_map(function($event) {
@@ -532,7 +532,7 @@ class CMOA_Calendar {
   public function related_exhibitions($post, $sort_by_date=true) {
     $related = get_field('related_items', $post) ?: [];
     $related_exhibitions = array_filter($related, function($related_exhibition) {
-      return get_post_type($related_exhibition) == 'exhibition';
+      return get_post_type($related_exhibition) == 'exhibition' && 'publish' == $related_exhibition->post_status;
     });
 
     $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) {
