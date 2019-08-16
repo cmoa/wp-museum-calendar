@@ -523,7 +523,7 @@ class CMOA_Calendar {
   *  @type	function
   *  @date	12/09/16
   *  @since	1.2.0
-  *  @version 2.0.0
+  *  @version 4.0.0
   *
   *  @param	$post (Post object)
   *  @return (array)
@@ -536,22 +536,13 @@ class CMOA_Calendar {
     });
 
     $related_exhibitions = array_filter($related_exhibitions, function($related_exhibition) {
-      return get_field('has_start_and_end_date', $related_exhibition->ID) ||
-        (!get_field('has_start_and_end_date', $related_exhibition->ID) && get_field('lead_message', $related_exhibition->ID));
+      return get_field('start_date', $related_exhibition->ID) || get_field('lead_message', $related_exhibition->ID);
     });
 
     if($sort_by_date) {
       usort($related_exhibitions, function($ex1, $ex2) {
-        if(!get_field('has_start_and_end_date', $ex1)) {
-          return -1;
-        }
-
-        if(!get_field('has_start_and_end_date', $ex2)) {
-          return 1;
-        }
-
         $start_date1 = DateTime::createFromFormat('Ymd', get_field('start_date', $ex1));
-        $start_date2 = DateTime::createFromFormat('Ymd', get_field('start_date', $related_exhibition->ID));
+        $start_date2 = DateTime::createFromFormat('Ymd', get_field('start_date', $ex2));
 
         if ($start_date1 == $start_date2) {
           return 0;
