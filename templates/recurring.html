@@ -1,5 +1,5 @@
 <time itemprop="startDate" content="{{start_date_iso}}">
-  <strong>{{recurrence}}, starting {{start_date}}</strong>, {{start_year}}
+  <strong>{{recurrence}}</strong>, <strong>{{start_date}}</strong>{{^in_same_year}}, {{start_year}}{{/in_same_year}}&ndash;<strong>{{end_date}}</strong>, {{end_year}}
   {{^ all_day}}
     <span class="times">{{start_time}}&ndash;{{end_time}}</span>
   {{/ all_day}}

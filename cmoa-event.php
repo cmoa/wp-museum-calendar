@@ -314,8 +314,11 @@ class CMOA_Event {
   */
 
   public function display_dates() {
-    if($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM') {
-      $template = $this->has_end_date() ? 'date_range' : 'recurring';
+    if($this->has_end_date() && $this->recurrence() === 'CUSTOM') {
+      $template = 'date_range';
+    }
+    elseif($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM') {
+      $template = 'recurring';
     }
     elseif($this->details->get('recurrence_rules')) {
       $template = 'multi';
