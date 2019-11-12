@@ -313,8 +313,27 @@ class CMOA_Event {
   *  @return html template string
   */
 
+  /*
+  *  custom_formatting
+  *
+  *  This function will return a custom format field
+  *
+  *  @type	function
+  *  @date	11/12/19
+  *  @since	4.2.0
+  *
+  *  @return string
+  */
+
+  public function custom_formatting() {
+    return function_exists('get_field') ? get_field('date_display') : false;
+  }
+
   public function display_dates() {
-    if($this->has_end_date() && $this->recurrence() === 'CUSTOM') {
+    if($this->custom_formatting()) {
+      $template = 'custom';
+    }
+    elseif($this->has_end_date() && $this->recurrence() === 'CUSTOM') {
       $template = 'date_range';
     }
     elseif($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM') {
