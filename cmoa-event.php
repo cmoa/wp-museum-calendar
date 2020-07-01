@@ -326,7 +326,7 @@ class CMOA_Event {
   */
 
   public function custom_formatting() {
-    return function_exists('get_field') ? get_field('date_display') : false;
+    return function_exists('get_field') ? get_field('date_display', $this->details->get('post_id')) : false;
   }
 
   public function display_dates() {
