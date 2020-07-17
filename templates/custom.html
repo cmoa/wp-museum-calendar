@@ -1,4 +1,9 @@
 <time itemprop="startDate" content="{{start_date_iso}}">
-  <strong>{{{custom_formatting}}}</strong>
-  <span class="times">{{start_time}}&ndash;{{end_time}}</span>
+  <strong>{{{custom_date}}}</strong>
+  {{^ custom_time}}
+    <span class="times">{{start_time}}&ndash;{{end_time}}</span>
+  {{/ custom_time}}
+  {{# custom_time}}
+    <span class="times">{{{custom_time}}}</span>
+  {{/ custom_time}}
 </time>

@@ -302,6 +302,38 @@ class CMOA_Event {
   }
 
   /*
+  *  custom_date
+  *
+  *  This function will return a custom date format field
+  *
+  *  @type	function
+  *  @date	07/17/20
+  *  @since	4.2.2
+  *
+  *  @return string
+  */
+
+  public function custom_date() {
+    return function_exists('get_field') ? get_field('date_display', $this->details->get('post_id')) : false;
+  }
+
+  /*
+  *  custom_date
+  *
+  *  This function will return a custom date format field
+  *
+  *  @type	function
+  *  @date	07/17/20
+  *  @since	4.2.2
+  *
+  *  @return string
+  */
+
+  public function custom_time() {
+    return function_exists('get_field') ? get_field('time_display', $this->details->get('post_id')) : false;
+  }
+
+  /*
   *  display_dates
   *
   *  This function will conditionally render an html template based on event conditions
@@ -313,44 +345,22 @@ class CMOA_Event {
   *  @return html template string
   */
 
-  /*
-  *  custom_formatting
-  *
-  *  This function will return a custom format field
-  *
-  *  @type	function
-  *  @date	11/12/19
-  *  @since	4.2.0
-  *
-  *  @return string
-  */
-
-  public function custom_formatting() {
-    return function_exists('get_field') ? get_field('date_display', $this->details->get('post_id')) : false;
-  }
-
   public function display_dates() {
-    if($this->custom_formatting()) {
+    if($this->custom_date()):
       $template = 'custom';
-    }
-    elseif($this->has_end_date() && $this->recurrence() === 'CUSTOM') {
+    elseif($this->has_end_date() && $this->recurrence() === 'CUSTOM'):
       $template = 'date_range';
-    }
-    elseif($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM') {
+    elseif($this->recurrence() !== false && $this->recurrence() !== 'CUSTOM'):
       $template = 'recurring';
-    }
-    elseif($this->details->get('recurrence_rules')) {
+    elseif($this->details->get('recurrence_rules')):
       $template = 'multi';
-    }
-    elseif ($this->all_day() || $this->has_no_end_time()) {
+    elseif ($this->all_day() || $this->has_no_end_time()):
       $template = 'start_date';
-    }
-    elseif ($this->details->get('start')->format('Ymd') != $this->details->get('end')->format('Ymd')) {
+    elseif ($this->details->get('start')->format('Ymd') != $this->details->get('end')->format('Ymd')):
       $template = 'mixed_range';
-    }
-    else {
+    else:
       $template = 'single';
-    }
+    endif;
 
     return $this->mustache->render("$template.html", $this);
   }

@@ -1,6 +1,11 @@
 <time itemprop="startDate" content="{{start_date_iso}}">
   <strong>{{start_date}}</strong>, {{start_year}}
-  {{^all_day}}
-  <span class="times">{{start_time}}{{^has_no_end_time}}&ndash;{{end_time}}{{/has_no_end_time}}</span>
-  {{/all_day}}
+  {{# custom_time}}
+    <span class="times">{{{custom_time}}}</span>
+  {{/ custom_time}}
+  {{^ custom_time}}
+    {{^ all_day}}
+      <span class="times">{{start_time}}{{^has_no_end_time}}&ndash;{{end_time}}{{/has_no_end_time}}</span>
+    {{/ all_day}}
+  {{/ custom_time}}
 </time>

@@ -3,10 +3,15 @@
     {{#formatted_instances}}
       <span class="event__day">{{day}}</span>,
       <span class="event__year">{{year}}</span>
-      {{^all_day}}
-        <span class="times">{{start_time}}{{^has_no_end_time}}&ndash;{{end_time}}{{/has_no_end_time}}</span>
-      {{/all_day}}
+      {{^ custom_time}}
+        {{^ all_day}}
+          <span class="times">{{start_time}}{{^has_no_end_time}}&ndash;{{end_time}}{{/has_no_end_time}}</span>
+        {{/ all_day}}
+      {{/ custom_time}}
       <br />
     {{/formatted_instances}}
+    {{# custom_time}}
+      <span class="times">{{{custom_time}}}</span>
+    {{/ custom_time}}
   </p>
 </time>
